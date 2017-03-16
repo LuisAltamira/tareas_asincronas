@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Celery Realtime</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Celery Realtime</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Exportar CSV">
+    </form>
+    <div id="result"></div>
+    <script>
+        var socket = io("ws://localhost:3000");
+        socket.on('result', function(csvURL){
+            var result = document.getElementById('result');
+            var aTag = document.createElement('a');
+            aTag.setAttribute('href', csvURL);
+            aTag.setAttribute('target', '_blank');
+            aTag.innerHTML = 'Descargar Archivo';
+            result.appendChild(aTag);
+        });
+        var submit = $('input[type="submit"]');
+        submit.on('click', function(event){
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'realtime' %}",
+                data: $('form').serialize(),
+                success(celeryTaskId){
+                    socket.emit('subscribe', celeryTaskId);
+                }
+            });
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

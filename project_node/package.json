@@ -1,0 +1,22 @@
+{
+  "name": "project_node",
+  "version": "1.0.0",
+  "description": "tareas asincronas con django y node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "supervisor app.js"
+  },
+  "author": "new emage",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "mongoose": "^4.8.4",
+    "redis": "^2.6.5",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {
+    "supervisor": "^0.12.0"
+  }
+}
